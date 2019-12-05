@@ -1,6 +1,6 @@
 # 
 # Sophia Wang 
-# December 12, 2019
+# December 3, 2019
 # keypoints_parse_12-3-19a.py
 # 
 
