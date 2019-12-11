@@ -1,21 +1,21 @@
 # 
 # Sophia Wang 
-# December 9, 2019
-# keypoints_parse_12-9-19a.py
+# December 10, 2019
+# keypoints_parse_12-10-19a.py
 # 
 
 import sys
 import json
 import math 
-body_angle_key ={0: ( 1,  0, 15), 
-		 1: ( 1,  0, 16),
-		 2: ( 0,  1,  2),
-		 3: ( 1,  2,  3),
-		 4: ( 2,  3,  4),		
-		 5: ( 0,  1,  5),
-		 6: ( 1,  5,  6),
-		 7: ( 5,  6,  7),
-		 8: ( 0,  1,  8),
+body_angle_key ={0: ( 1,  0, 15),	#		-------          
+		 1: ( 1,  0, 16),	#	       /       \
+		 2: ( 0,  1,  2),	#	      |	  o o   |
+		 3: ( 1,  2,  3),	#	       \   O   /
+		 4: ( 2,  3,  4),	#		-------
+		 5: ( 0,  1,  5),	#		  | |
+		 6: ( 1,  5,  6),	#		
+		 7: ( 5,  6,  7),	#
+		 8: ( 0,  1,  8),	#
 		 9: ( 2,  1,  8),
 		10: ( 5,  1,  8),
 		11: ( 1,  8,  9),
@@ -29,8 +29,8 @@ body_angle_key ={0: ( 1,  0, 15),
 		19: (13, 14, 21),
 		20: (13, 14, 19)}	 
 
-hand_angle_key ={0: ( 0,  1,  2),
-		 1: ( 1,  2,  3),
+hand_angle_key ={0: ( 0,  1,  2),	#		\ | | | | /
+		 1: ( 1,  2,  3),	#		 \||||
 		 2: ( 2,  3,  4),
 		 3: ( 0,  5,  6),
 		 4: ( 5,  6,  7),
@@ -44,6 +44,23 @@ hand_angle_key ={0: ( 0,  1,  2),
 		12: ( 0, 17, 18),
 		13: (17, 18, 19),
 		14: (18, 19, 20)}
+
+
+hand_angle_key_cont ={21: ( 0,  1,  2),
+		22: ( 1,  2,  3),
+		23: ( 2,  3,  4),
+		24: ( 0,  5,  6),
+		25: ( 5,  6,  7),
+		26: ( 6,  7,  8), 
+		27: ( 0,  9, 10),
+		28: ( 9, 10, 11),
+		29: (10, 11, 12),
+		30: ( 0, 13, 14),
+		31: (13, 14, 15),
+		32: (14, 15, 16),
+		33: ( 0, 17, 18),
+		34: (17, 18, 19),
+		35: (18, 19, 20)}
 
 points_key = {	 '0':	"Nose",  
 		 '1':  	"Neck", 
@@ -70,7 +87,6 @@ points_key = {	 '0':	"Nose",
 		'22': 	"RBigToe",
 		'23': 	"RSmallToe",
 		'24': 	"RHeel"}
-frame_angle = {} #int frame number : [angles] 
 body_points = { "Nose" 		: [],
 		"Neck" 		: [],
 		"RShoulder" 	: [],
@@ -97,6 +113,8 @@ body_points = { "Nose" 		: [],
 		"RSmallToe"	: [],
 		"RHeel"		: []}
 
+frame_angle = {} #int frame number : [angles] 
+
 def angle_calc(x1, y1,  x2, y2, x3, y3): # x2, y2 is center point
 
 	jx12 = (x1-x2)
@@ -110,24 +128,28 @@ def angle_calc(x1, y1,  x2, y2, x3, y3): # x2, y2 is center point
 	theta = math.acos( (jx12 * jx32 + jy12 * jy32) / (r12*r32) )	
 	return math.degrees(theta)	
 
+def body_frames():
+	return 
+
 def frame_parse(frame_num):
 	json_frame = open("../output/video_output/VID_TEST_CASE_1_keypoints/VID_TEST_CASE_1_{0:012d}_keypoints.json".format(frame_num), 'r')
-    	data = json_frame.read()
+	data = json_frame.read()
 	frame = json.loads( data )  
 	for k in frame:
-	    print(k)        
-	    if k == "version": 
-		continue
-	    temp = frame[k]
-	    print()
-	    for i in temp: 
-		for j in i: 
-		    if j in points_key:
-			print(j,points_key[j], i[j])
-			body_points[j].append((i[j][0], i[k][1]))
-		    else:
-			print(j, i[j])
-	 
+		print(k)        
+		if k == "version": 
+			continue
+		temp = frame[k]
+		print()
+		for i in temp: 
+			for j in i: 
+				if j in points_key:
+					print(j,points_key[j], i[j])
+					body_points[j].append((i[j][0], i[k][1]))
+			#		frame_angle[frame_num] =  
+				else:
+					print(j, i[j])
+ 
 	return  
 
 print(angle_calc(1,0,0,0,0,1))
@@ -136,17 +158,27 @@ with open("../output/video_output/VID_TEST_CASE_1_keypoints/VID_TEST_CASE_1_{0:0
     data = tfile.read()
 
 frame0 = json.loads( data )  
-for k in frame0:
-    print(k)        
-    if k == "version": 
-        continue
-    temp = frame0[k]
-    print()
-    for i in temp: 
-        for j in i: 
-            if j in points_key:
-                print(j,points_key[j], i[j])
-            else:
-                print(j, i[j])
-       # for j in temp[i]:
-        #    print(j)
+print(frame0)
+for key_name in frame0: #key_name = "version", "people", "part_candidates" 
+	print()
+	print(key_name)
+	if key_name == "people": 
+		keyval = frame0[key_name]# pose points, l/r hand points, face points (2d and 3d) 
+		for i in keyval:	 # keyval: people -> hand, face keypoints etc. part_candidates -> candidates for the 
+			for j in i: 	 # body part before assembling, don't worry about it 
+				if j in points_key:
+					print(j,points_key[j], i[j])
+				else:
+					print(j, i[j])
+'''
+for key_name in frame0: #key_name = "version", "people", "part_candidates" 
+	print(key_name)
+	if k == "version": 
+		continue
+	key_val = frame0[k] # people: person id,  
+	print(key_val)
+	for i in key_val: # keyval: people -> hand, face keypoints etc. part_candidates -> candidates for the body part before 
+		print(i)  # assembling, don't worry about it 
+'''
+
+
