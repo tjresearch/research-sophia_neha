@@ -131,8 +131,8 @@ def body_frames(output_folder): # output folder = VID_TEST_CASE_# without the ke
     inpath  = "../output/video_output/{0:}_keypoints/{0:}_{1:012d}_keypoints.json"
     i = 0
     output = open(outpath, 'w')
-    while(os.path.isfile(inpath.format(output_folder, i))):
-        output.write(str(frame_parse(inpath.format(output_folder, i))) + '\n')
+    while(os.path.isfile(inpath.format(output_folder, i))): # checks if the input file exists 
+        output.write(str(frame_parse(inpath.format(output_folder, i))) + '\n') # writes the angle file 
         i += 1
     output.close()
 
