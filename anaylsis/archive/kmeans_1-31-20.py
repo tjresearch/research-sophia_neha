@@ -1,6 +1,5 @@
 #
-# Neha Bagalkot
-# January 31, 2020
+# Neha Bagalkot # January 31, 2020
 # kmeans_1-31-20.py
 #
 
